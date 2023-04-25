@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  web:
+    build: 
+      dockerfile: ./infra/web/Dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - ./src:/home/gonzales/app
+  app:
+    build:
+      dockerfile: ./infra/app/Dockerfile
+    volumes:
+      - ./src:/home/gonzales/app
+  db:
+    build:
+      dockerfile: "./infra/db/Dockerfile"
+    ports:
+      - "3306:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=password"
+      - "MYSQL_DATABASE=database"
+      - "MYSQL_USER=laravel"
+      - "MYSQL_PASSWORD=password"
+
+    volumes:
+      - "mysql-data:/var/lib/mysql"
+    
+volumes:
+  mysql-data:
